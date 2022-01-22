@@ -1,0 +1,110 @@
+version: "3.8"
+
+services:
+  zookeeper:
+    image: docker.io/bitnami/zookeeper:3.7
+    container_name: zookeeper
+    hostname: zookeeper
+    ports:
+      - "2181:2181"
+    volumes:
+      - /Users/koziolk/_volumes/openfda/zookeeper-data:/bitnami
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  
+  kafka:
+    image: docker.io/bitnami/kafka:3
+    container_name: kafka
+    hostname: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 9092:9092
+      - 9093:9093
+    volumes:
+      - /Users/koziolk/_volumes/openfda/kafka-data:/bitnami
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://localhost:9093
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+
+  mongodb:
+    image: docker.io/bitnami/mongodb:4.4.11
+    container_name: mongodb
+    hostname: mongodb
+    environment:
+      MONGODB_ROOT_PASSWORD: openfda
+      MONGODB_ADVERTISED_HOSTNAME: mongodb
+      MONGODB_USERNAME: openfda
+      MONGODB_PASSWORD: openfda
+      MONGODB_DATABASE: openfda_test
+    volumes:
+      - /Users/koziolk/_volumes/openfda/mongodb-data:/bitnami
+    ports:
+      - 27017:27017
+
+  openfda-producer:
+    image: koziolk/openfda-producer:latest
+    container_name: openfda-producer
+    hostname: openfda-producer
+    depends_on:
+      - kafka
+      - mongodb
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      KAFKA_WAIT_FOR_SERVERS: 60000
+      KAFKA_NUMBER_OF_TOPIC_PARTITIONS: 8
+      OPENFDA_API_BATCH_SIZE: 1000
+      OPENFDA_API_BATCH_READ_DELAY: 1000
+      OPENFDA_API_SYNC_DATE_FROM: 2000-01-01
+      OPENFDA_API_SYNC_DATE_TO: 2022-01-01
+      JAVA_TOOL_OPTIONS: -Xmx1G -Xms1G
+    ports:
+      - 7777:8080
+  
+  openfda-consumer:
+    image: koziolk/openfda-consumer:latest
+    container_name: openfda-consumer
+    hostname: openfda-consumer
+    depends_on:
+      - kafka
+      - mongodb
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_DATA_MONGODB_URI: mongodb://root:openfda@mongodb:27017/openfda_test?authSource=admin
+      KAFKA_WAIT_FOR_SERVERS: 60000
+      KAFKA_NUMBER_OF_CONSUMERS: 8
+      JAVA_TOOL_OPTIONS: -Xmx1G -Xms1G
+    ports:
+      - 9999:8080
+  
+  openfda-dashboard:
+    image: koziolk/openfda-live-dashboard:latest
+    container_name: openfda-dashboard
+    hostname: openfda-dashboard
+    depends_on:
+      - openfda-producer
+      - openfda-consumer
+    environment:
+      MONGO_URI: mongodb://root:openfda@mongodb:27017/openfda_test?authSource=admin
+      MONGO_DB: openfda_test
+      GRAPH_REFRESH_INTERVAL: 10000
+    ports:
+      - 8050:8050
+
+  jupyter-notebook:
+    image: jupyter/base-notebook:latest
+    container_name: jupyter-notebook
+    hostname: jupyter-notebook
+    depends_on:
+      - openfda-producer
+      - openfda-consumer
+    environment:
+      JUPYTER_ENABLE_LAB: "yes"
+    command: "start-notebook.sh --NotebookApp.token='openfda' --NotebookApp.password='openfda'"
+    ports:
+      - 8888:8888

@@ -1,0 +1,195 @@
+version: "3.8"
+
+services:
+
+  #kafka cluster
+  zookeeper-1:
+    image: confluentinc/cp-zookeeper:6.2.2
+    container_name: zookeeper-1
+    hostname: zookeeper-1
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 22181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: zookeeper-1:22888:23888;zookeeper-2:32888:33888;zookeeper-3:42888:43888
+    ports:
+      - 22181:22181
+
+  zookeeper-2:
+    image: confluentinc/cp-zookeeper:6.2.2
+    container_name: zookeeper-2
+    hostname: zookeeper-2
+    environment:
+      ZOOKEEPER_SERVER_ID: 2
+      ZOOKEEPER_CLIENT_PORT: 32181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: zookeeper-1:22888:23888;zookeeper-2:32888:33888;zookeeper-3:42888:43888
+    ports:
+      - 32181:32181
+
+  zookeeper-3:
+    image: confluentinc/cp-zookeeper:6.2.2
+    container_name: zookeeper-3
+    hostname: zookeeper-3
+    environment:
+      ZOOKEEPER_SERVER_ID: 3
+      ZOOKEEPER_CLIENT_PORT: 42181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOOKEEPER_SERVERS: zookeeper-1:22888:23888;zookeeper-2:32888:33888;zookeeper-3:42888:43888
+    ports:
+      - 42181:42181
+
+  kafka-1:
+    image: confluentinc/cp-kafka:6.2.2
+    container_name: kafka-1
+    hostname: kafka-1
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+      - zookeeper-3
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_CLUSTER_ID: kafka-cluster
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:22181,zookeeper-2:32181,zookeeper-3:42181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-1:19091,PLAINTEXT_HOST://localhost:19092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+    ports:
+      - 19092:19092
+
+  kafka-2:
+    image: confluentinc/cp-kafka:6.2.2
+    container_name: kafka-2
+    hostname: kafka-2
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+      - zookeeper-3
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_CLUSTER_ID: kafka-cluster
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:22181,zookeeper-2:32181,zookeeper-3:42181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-2:29091,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+    ports:
+      - 29092:29092
+  
+  kafka-3:
+    image: confluentinc/cp-kafka:6.2.2
+    container_name: kafka-3
+    hostname: kafka-3
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+      - zookeeper-3
+    environment:
+      KAFKA_BROKER_ID: 3
+      KAFKA_CLUSTER_ID: kafka-cluster
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:22181,zookeeper-2:32181,zookeeper-3:42181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-3:39091,PLAINTEXT_HOST://localhost:39092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+    ports:
+      - 39092:39092
+  
+  #mongo cluster
+  mongodb-primary:
+    image: bitnami/mongodb:4.4.11
+    container_name: mongodb-primary
+    hostname: mongodb-primary
+    environment:
+      MONGODB_REPLICA_SET_MODE: primary
+      MONGODB_ROOT_PASSWORD: openfda
+      MONGODB_REPLICA_SET_KEY: openfda
+      MONGODB_ADVERTISED_HOSTNAME: mongodb-primary
+      MONGODB_USERNAME: openfda
+      MONGODB_PASSWORD: openfda
+      MONGODB_DATABASE: openfda
+    volumes:
+      - '/Users/koziolk/_volumes/mongodb-primary-data:/bitnami'
+    ports:
+      - 27017:27017
+
+  mongodb-secondary:
+    image: bitnami/mongodb:4.4.11
+    container_name: mongodb-secondary
+    hostname: mongodb-secondary
+    depends_on:
+      - mongodb-primary
+    environment:
+      MONGODB_REPLICA_SET_MODE: secondary
+      MONGODB_INITIAL_PRIMARY_HOST: mongodb-primary
+      MONGODB_INITIAL_PRIMARY_PORT_NUMBER: 27017
+      MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD: openfda
+      MONGODB_REPLICA_SET_KEY: openfda
+      MONGODB_ADVERTISED_HOSTNAME: mongodb-secondary
+    volumes:
+      - '/Users/koziolk/_volumes/mongodb-secondary-data:/bitnami'
+
+  mongodb-arbiter:
+    image: bitnami/mongodb:4.4.11
+    container_name: mongodb-arbiter
+    hostname: mongodb-arbiter
+    depends_on:
+      - mongodb-primary
+    environment:
+      MONGODB_REPLICA_SET_MODE: arbiter
+      MONGODB_INITIAL_PRIMARY_HOST: mongodb-primary
+      MONGODB_INITIAL_PRIMARY_PORT_NUMBER: 27017
+      MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD: openfda
+      MONGODB_REPLICA_SET_KEY: openfda
+      MONGODB_ADVERTISED_HOSTNAME: mongodb-arbiter
+    volumes:
+      - '/Users/koziolk/_volumes/mongodb-arbiter-data:/bitnami'
+
+  # producer
+  openfda-producer:
+    image: koziolk/openfda-producer:latest
+    container_name: openfda-producer
+    hostname: openfda-producer
+    depends_on:
+      - kafka-1
+      - kafka-2
+      - kafka-3
+      - mongodb-primary
+      - mongodb-secondary
+      - mongodb-arbiter
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka-1:19091,kafka-2:29091,kafka-3:39091
+      KAFKA_WAIT_FOR_SERVERS: 60000
+      KAFKA_NUMBER_OF_TOPIC_PARTITIONS: 4
+      OPENFDA_API_BATCH_SIZE: 1000
+      OPENFDA_API_BATCH_READ_DELAY: 1000 
+      JAVA_TOOL_OPTIONS: -Xmx512m -Xms512m
+    ports:
+      - 8888:8080
+  
+  # consumer
+  openfda-consumer:
+    image: koziolk/openfda-consumer:latest
+    container_name: openfda-consumer
+    hostname: openfda-consumer
+    depends_on:
+      - kafka-1
+      - kafka-2
+      - kafka-3
+      - mongodb-primary
+      - mongodb-secondary
+      - mongodb-arbiter
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka-1:19091,kafka-2:29091,kafka-3:39091
+      SPRING_DATA_MONGODB_URI: mongodb://root:openfda@mongodb-primary:27017,mongodb-secondary:27017,mongodb-arbiter:27017/openfda?authSource=admin&replicaSet=replicaset
+      KAFKA_WAIT_FOR_SERVERS: 60000
+      KAFKA_NUMBER_OF_CONSUMERS: 4
+      JAVA_TOOL_OPTIONS: -Xmx512m -Xms512m
+    ports:
+      - 9999:8080
+
+  # web dashboard

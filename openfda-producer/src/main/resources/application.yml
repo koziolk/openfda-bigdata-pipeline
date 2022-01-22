@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: openfda-producer
+  main:
+    lazy-initialization: false
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:19092}
+    wait-for-servers: ${KAFKA_WAIT_FOR_SERVERS:10000}
+    number-of-topic-partitions: ${KAFKA_NUMBER_OF_TOPIC_PARTITIONS:8}
+    number-of-topic-replicas: ${KAFKA_NUMBER_OF_TOPIC_REPLICAS:1}
+    topic-name: ${KAFKA_TOPIC_NAME:fda.drug.adverse.events}
+
+openfda:
+  api:
+    base-url: https://api.fda.gov
+    key: elbLM2aODRxxFZNNbxxGgH80ssmd2Syao3m45RvQ
+    request:
+      batch-size: ${OPENFDA_API_BATCH_SIZE:200}
+      batch-read-delay: ${OPENFDA_API_BATCH_READ_DELAY:1000} #in milliseconds
+      sync-date-from: ${OPENFDA_API_SYNC_DATE_FROM:2000-01-01}
+      sync-date-to: ${OPENFDA_API_SYNC_DATE_TO:2023-01-01}
+
+logging:
+  file:
+    name: ${spring.application.name}.log
+    path: /var/log
+  level:
+    root: INFO
+    io.bigdata: DEBUG
+    org.springframework.web.client: INFO
+    org.springframework.web.client.RestTemplate: DEBUG
+    httpclient.wire: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %highlight(%-5level) %yellow(%logger{50}) - %msg [%cyan(%thread)]%n"

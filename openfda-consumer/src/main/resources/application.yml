@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: openfda-consumer
+  main:
+    lazy-initialization: false
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:19092}
+    wait-for-servers: ${KAFKA_WAIT_FOR_SERVERS:10000}
+    topic-name: ${KAFKA_TOPIC_NAME:fda.drug.adverse.events}
+    number-of-consumers: ${KAFKA_NUMBER_OF_CONSUMERS:8}
+    consumer-group-id: ${KAFKA_CONSUMER_GROUP_ID:openfda-group}
+  data:
+    mongodb:
+      uri: ${SPRING_DATA_MONGODB_URI:mongodb://root:openfda@localhost:27017/openfda?authSource=admin}
+
+logging:
+  file:
+    name: ${spring.application.name}.log
+    path: /var/log
+  level:
+    root: INFO
+    io.bigdata: DEBUG
+    org.springframework.web.client: INFO
+    httpclient.wire: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %highlight(%-5level) %yellow(%logger{50}) - %msg [%cyan(%thread)]%n"
