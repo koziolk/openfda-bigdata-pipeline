@@ -58,6 +58,10 @@ In addition, you can access Jupyter Notebook `jupyter-notebook` via a browser un
 
 [http://localhost:8888](http://localhost:8888) 
 
+## Example graphs
+
+....
+
 ## Issues and contribution
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/koziolk/openfda-bigdata-pipeline
