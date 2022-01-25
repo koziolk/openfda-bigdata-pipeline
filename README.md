@@ -3,7 +3,7 @@
 **OpenFDA Bigdata Pipeline** is a project that processes and visualizes data from drug adverse events' reports provided by [openFDA](https://open.fda.gov/apis/drug/) research project.
 It exposes a live monitoring dashboard where users can see continuously incoming reports in an aggregated fashion.
 
-The solution uses [Apache Kafka](https://kafka.apache.org/) for integration and [Mongo DB](https://www.mongodb.com) as a storage.
+The solution uses [Apache Kafka](https://kafka.apache.org/) as a message bus and [Mongo DB](https://www.mongodb.com) as a storage.
 
 ## Contents
 
@@ -11,7 +11,7 @@ This repository contains the code for the openFDA bigdata pipeline solution
 
 * [openfda-producer](openfda-producer) it's a microservice build with [Spring Boot](https://spring.io/projects/spring-boot) and written in [Java](https://www.java.com)
 * [openfda-consumer](openfda-consumer) it's a microservice build with [Spring Boot](https://spring.io/projects/spring-boot) and written in [Java](https://www.java.com)
-* [openfda-live-dashboard](openfda-live-dashboard) it's a web application build with [Flask](https://flask.palletsprojects.com/), [Dash](https://github.com/plotly/dash) and written in [Python](https://www.python.org/)
+* [openfda-live-dashboard](openfda-live-dashboard) it's a web application build with [Flask](https://flask.palletsprojects.com/), [Dash](https://dash.plotly.com/) and written in [Python](https://www.python.org/)
 
 ##  Pipeline Architecture
 
