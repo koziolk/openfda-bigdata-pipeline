@@ -15,7 +15,7 @@ services:
       ZOOKEEPER_SYNC_LIMIT: 2
       ZOOKEEPER_SERVERS: zookeeper-1:22888:23888;zookeeper-2:32888:33888;zookeeper-3:42888:43888
     ports:
-      - 22181:22181
+      - "22181:22181"
 
   zookeeper-2:
     image: confluentinc/cp-zookeeper:6.2.2
@@ -29,7 +29,7 @@ services:
       ZOOKEEPER_SYNC_LIMIT: 2
       ZOOKEEPER_SERVERS: zookeeper-1:22888:23888;zookeeper-2:32888:33888;zookeeper-3:42888:43888
     ports:
-      - 32181:32181
+      - "32181:32181"
 
   zookeeper-3:
     image: confluentinc/cp-zookeeper:6.2.2
@@ -43,7 +43,7 @@ services:
       ZOOKEEPER_SYNC_LIMIT: 2
       ZOOKEEPER_SERVERS: zookeeper-1:22888:23888;zookeeper-2:32888:33888;zookeeper-3:42888:43888
     ports:
-      - 42181:42181
+      - "2181:42181"
 
   kafka-1:
     image: confluentinc/cp-kafka:6.2.2
@@ -61,7 +61,7 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
     ports:
-      - 19092:19092
+      - "19092:19092"
 
   kafka-2:
     image: confluentinc/cp-kafka:6.2.2
@@ -79,7 +79,7 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
     ports:
-      - 29092:29092
+      - "29092:29092"
   
   kafka-3:
     image: confluentinc/cp-kafka:6.2.2
@@ -97,7 +97,7 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
     ports:
-      - 39092:39092
+      - "39092:39092"
   
   #mongo cluster
   mongodb-primary:
@@ -115,7 +115,7 @@ services:
     volumes:
       - '/Users/koziolk/_volumes/mongodb-primary-data:/bitnami'
     ports:
-      - 27017:27017
+      - "27017:27017"
 
   mongodb-secondary:
     image: bitnami/mongodb:4.4.11
@@ -164,12 +164,14 @@ services:
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka-1:19091,kafka-2:29091,kafka-3:39091
       KAFKA_WAIT_FOR_SERVERS: 60000
-      KAFKA_NUMBER_OF_TOPIC_PARTITIONS: 4
+      KAFKA_NUMBER_OF_TOPIC_PARTITIONS: 8
       OPENFDA_API_BATCH_SIZE: 1000
-      OPENFDA_API_BATCH_READ_DELAY: 1000 
-      JAVA_TOOL_OPTIONS: -Xmx512m -Xms512m
+      OPENFDA_API_BATCH_READ_DELAY: 1000
+      OPENFDA_API_SYNC_DATE_FROM: 2000-01-01
+      OPENFDA_API_SYNC_DATE_TO: 2022-01-01
+      JAVA_TOOL_OPTIONS: -Xmx1G -Xms1G
     ports:
-      - 8888:8080
+      - "8888:8080"
   
   # consumer
   openfda-consumer:
@@ -190,6 +192,19 @@ services:
       KAFKA_NUMBER_OF_CONSUMERS: 4
       JAVA_TOOL_OPTIONS: -Xmx512m -Xms512m
     ports:
-      - 9999:8080
+      - "9999:8080"
 
   # web dashboard
+  openfda-dashboard:
+    image: koziolk/openfda-live-dashboard:latest
+    container_name: openfda-dashboard
+    hostname: openfda-dashboard
+    depends_on:
+      - openfda-producer
+      - openfda-consumer
+    environment:
+      MONGO_URI: mongodb://root:openfda@mongodb:27017/openfda_test?authSource=admin
+      MONGO_DB: openfda_test
+      GRAPH_REFRESH_INTERVAL: 10000
+    ports:
+      - "8050:8050"
