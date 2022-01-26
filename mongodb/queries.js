@@ -37,24 +37,6 @@ db.getCollection('drugAdverseEvent').aggregate([
                      { $sort: { total: -1 } },
                      { $limit : 20 }
                    ]);
-                     
-// TOP reported drug brand names
-db.getCollection('drugAdverseEvent').aggregate([
-                     { $project: {drugBrandNames: 1}},
-                     { $unwind : "$drugBrandNames" },
-                     { $group: { _id: "$drugBrandNames", total: { $sum: 1 } } },
-                     { $sort: { total: -1 } },
-                     { $limit : 20 }
-                   ]);
-                                         
-// TOP reported drug substance names
-db.getCollection('drugAdverseEvent').aggregate([
-                     { $project: {drugSubstanceNames: 1}},
-                     { $unwind : "$drugSubstanceNames" },
-                     { $group: { _id: "$drugSubstanceNames", total: { $sum: 1 } } },
-                     { $sort: { total: -1 } },
-                     { $limit : 20 }
-                   ]);
                                       
 // TOP reported drug manufacturer names
 db.getCollection('drugAdverseEvent').aggregate([
@@ -65,7 +47,7 @@ db.getCollection('drugAdverseEvent').aggregate([
                      { $limit : 20 }
                    ]);
                      
-// TOP reported cuntries
+// TOP reported countries
 db.getCollection('drugAdverseEvent').aggregate([
                      { $project: {country: 1}},
                      { $group: { _id: "$country", total: { $sum: 1 } } },
@@ -73,7 +55,7 @@ db.getCollection('drugAdverseEvent').aggregate([
                      { $limit : 20 }
                    ]);
                      
-// patient sex
+// patient by sex
 db.getCollection('drugAdverseEvent').aggregate([
                      { $match: {patientSex : {$gte : 0}}},
                      { $group: { _id: "$patientSex", total: { $sum: 1 } } },
@@ -91,26 +73,38 @@ db.getCollection('drugAdverseEvent').aggregate([
                      }},
                     { $sort: { total: -1 }}
                     ]);
-                     
-                     
 
-// TOP 10 years when reported most 
-db.getCollection('drugAdverseEvent').aggregate([
-                     { $project: { date: { $dateFromString: { dateString: '$receiveDate', format: "%Y%m%d" }}}},
-                     { $group: { _id: { $year: "$date" }, total: { $sum: 1 }} },
-                     { $sort: { total: -1 } },
-                     { $limit : 10 }
-                     ]);
 
-// TOP 10 months when reported most 
+// reported events by month
 db.getCollection('drugAdverseEvent').aggregate([
                      { $project: { date: { $dateFromString: { dateString: '$receiveDate', format: "%Y%m%d" }}}},
                      { $group: { _id: { $month: "$date" }, total: { $sum: 1 }} },
-                     { $sort: { total: -1 } },
-                     { $limit : 10 }
+                     {"$project": {
+                        sex: {
+                            $switch: {
+                                branches: [
+                                    { case: { $eq: [ "$_id", 1 ] }, then: "January" },
+                                    { case: { $eq: [ "$_id", 2 ] }, then: "February" },
+                                    { case: { $eq: [ "$_id", 3 ] }, then: "March" },
+                                    { case: { $eq: [ "$_id", 4 ] }, then: "April" },
+                                    { case: { $eq: [ "$_id", 5 ] }, then: "May" },
+                                    { case: { $eq: [ "$_id", 6 ] }, then: "June" },
+                                    { case: { $eq: [ "$_id", 7 ] }, then: "July" },
+                                    { case: { $eq: [ "$_id", 8 ] }, then: "August" },
+                                    { case: { $eq: [ "$_id", 9 ] }, then: "September" },
+                                    { case: { $eq: [ "$_id", 10 ] }, then: "October" },
+                                    { case: { $eq: [ "$_id", 11 ] }, then: "November" },
+                                    { case: { $eq: [ "$_id", 12 ] }, then: "December" }
+                                ], default: "unknown"
+                            }
+                        },
+                        total: 1,
+                        _id: 0
+                     }},
+                     { $sort: { total: -1 } }
                      ]);
 
-// product group by patitent sex
+// product group by patient sex
 db.getCollection('drugAdverseEvent').aggregate([
                      { $project: { patientSex: 1, medicinalProduct: 1}},
                      { $match: { patientSex : {$gte : 1}}},
@@ -127,7 +121,3 @@ db.getCollection('drugAdverseEvent').aggregate([
                      { $group: { _id: {patientReactions: "$patientReactions", year :{ $year:"$date" }}, total: { $sum: 1 }}},
                      { $sort: { total: -1 } }
                    ]);
-                       
-                     
-                     
-                     
