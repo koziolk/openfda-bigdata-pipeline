@@ -60,11 +60,12 @@ In addition, you can access Jupyter Notebook `jupyter-notebook` via a browser un
 
 ## Example graphs
 
-### Top 20 patient reactions reported since 2004
-![Top patient reactions](results/top-patient-reactions-all.png)
+### Top 20 patient reactions reported between 2020-01-01 and 2022-01-01
+![Top patient reactions](results/top-patient-reactions-2020-2022.png)
 
-### Top 20 patient medical products reported since 2004
-![Top medical products](results/top-medical-products-all.png)
+### Top 20 patient medical products reported between 2020-01-01 and 2022-01-01
+![Top medical products](results/top-medical-products-2020-2022.png)
+
 
 ## Issues and contribution
 
