@@ -1,8 +1,8 @@
 # OpenFDA BigData Pipeline
 
-**OpenFDA BigData Pipeline** enables collection, processing and real-time presentation of data on adverse drug events from [openFDA](https://open.fda.gov/apis/drug/) project database.
+**OpenFDA BigData Pipeline** enables collection, processing, and real-time presentation of data - on adverse drug events from the [openFDA](https://open.fda.gov/apis/drug/) project database.
 
-The solution uses [Apache Kafka](https://kafka.apache.org/) as a message bus, [Mongo DB](https://www.mongodb.com) as a document storage, [Spring Boot](https://spring.io/projects/spring-boot) for services and is Dockerized.
+The solution uses [Apache Kafka](https://kafka.apache.org/) as a message broker, [Mongo DB](https://www.mongodb.com) as a document storage, [Spring Boot](https://spring.io/projects/spring-boot) for services and is Dockerized.
 
 ## Contents
 
@@ -60,14 +60,11 @@ In addition, you can access Jupyter Notebook `jupyter-notebook` via a browser un
 
 ## Example graphs
 
-### Top patient reactions reported between 2020-01-01 and 2022-01-01
-![Top patient reactions](results/top-patient-reactions-2020-2022.png)
+### Top 20 patient reactions reported since 2004
+![Top patient reactions](results/top-patient-reactions-all.png)
 
-### Top patient medical products reported between 2020-01-01 and 2022-01-01
-![Top medical products](results/top-medical-products-2020-2022.png)
-
-### Number of patient reactions grouped by month reported between 2020-01-01 and 2022-01-01
-![Top reactions grouped by month](results/reactions-by-month-2020-2022.png)
+### Top 20 patient medical products reported since 2004
+![Top medical products](results/top-medical-products-all.png)
 
 ## Issues and contribution
 
