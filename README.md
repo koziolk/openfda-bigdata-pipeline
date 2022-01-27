@@ -1,19 +1,18 @@
-# OpenFDA Bigdata Pipeline
+# OpenFDA BigData Pipeline
 
-**OpenFDA Bigdata Pipeline** is a project that processes and visualizes data from drug adverse events' reports provided by [openFDA](https://open.fda.gov/apis/drug/) research project.
-It exposes a live monitoring dashboard where users can see continuously incoming reports in an aggregated fashion.
+**OpenFDA BigData Pipeline** enables collection, processing and real-time presentation of data on adverse drug events from [openFDA](https://open.fda.gov/apis/drug/) project database.
 
-The solution uses [Apache Kafka](https://kafka.apache.org/) as a message bus and [Mongo DB](https://www.mongodb.com) as a storage.
+The solution uses [Apache Kafka](https://kafka.apache.org/) as a message bus, [Mongo DB](https://www.mongodb.com) as a document storage, [Spring Boot](https://spring.io/projects/spring-boot) for services and is Dockerized.
 
 ## Contents
 
-This repository contains the code for the openFDA bigdata pipeline solution
+This repository contains the code for the openFDA BigData Pipeline solution
 
 * [openfda-producer](openfda-producer) it's a microservice build with [Spring Boot](https://spring.io/projects/spring-boot) and written in [Java](https://www.java.com)
 * [openfda-consumer](openfda-consumer) it's a microservice build with [Spring Boot](https://spring.io/projects/spring-boot) and written in [Java](https://www.java.com)
 * [openfda-live-dashboard](openfda-live-dashboard) it's a web application build with [Flask](https://flask.palletsprojects.com/), [Dash](https://dash.plotly.com/) and written in [Python](https://www.python.org/)
 
-##  Pipeline Architecture
+##  Architecture
 
 
 ![Pipeline Architecture](pipeline-architecture.svg)
@@ -41,9 +40,10 @@ docker-compose -f pipeline.yml up
 will:
 
 * Start `openfda-producer` container 
+* Start `zookeper` container
 * Start `kafka` container
-* Start `openfda-consumer` container
 * Start `mongodb` container
+* Start `openfda-consumer` container
 * Start `openfda-live-dashboard` container which will expose port `8050`
 * Start `jupyter-notebook` container which will expose port `8888`
 

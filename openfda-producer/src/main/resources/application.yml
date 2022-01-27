@@ -13,7 +13,7 @@ spring:
 openfda:
   api:
     base-url: https://api.fda.gov
-    key: elbLM2aODRxxFZNNbxxGgH80ssmd2Syao3m45RvQ
+    key: ${OPENFDA_API_KEY:elbLM2aODRxxFZNNbxxGgH80ssmd2Syao3m45RvQ}
     request:
       batch-size: ${OPENFDA_API_BATCH_SIZE:200}
       batch-read-delay: ${OPENFDA_API_BATCH_READ_DELAY:1000} #in milliseconds

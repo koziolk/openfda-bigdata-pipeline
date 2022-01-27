@@ -1,0 +1,235 @@
+{
+  "meta": {
+    "disclaimer": "Do not rely on openFDA to make decisions regarding medical care. While we make every effort to ensure that data is accurate, you should assume all results are unvalidated. We may limit or otherwise restrict your access to the API in line with our Terms of Service.",
+    "terms": "https://open.fda.gov/terms/",
+    "license": "https://open.fda.gov/license/",
+    "last_updated": "2021-11-04",
+    "results": {
+      "skip": 0,
+      "limit": 1,
+      "total": 122120
+    }
+  },
+  "results": [
+    {
+      "safetyreportversion": "1",
+      "safetyreportid": "18690166",
+      "primarysourcecountry": "US",
+      "occurcountry": "US",
+      "transmissiondateformat": "102",
+      "transmissiondate": "20210419",
+      "reporttype": "1",
+      "serious": "2",
+      "receivedateformat": "102",
+      "receivedate": "20210101",
+      "receiptdateformat": "102",
+      "receiptdate": "20210101",
+      "fulfillexpeditecriteria": "2",
+      "companynumb": "US-ASTRAZENECA-2020SF63312",
+      "duplicate": "1",
+      "reportduplicate": {
+        "duplicatesource": "ASTRAZENECA",
+        "duplicatenumb": "US-ASTRAZENECA-2020SF63312"
+      },
+      "primarysource": {
+        "reportercountry": "US",
+        "qualification": "5"
+      },
+      "sender": {
+        "sendertype": "2",
+        "senderorganization": "FDA-Public Use"
+      },
+      "receiver": {
+        "receivertype": "6",
+        "receiverorganization": "FDA"
+      },
+      "patient": {
+        "patientsex": "2",
+        "reaction": [
+          {
+            "reactionmeddraversionpt": "23.1",
+            "reactionmeddrapt": "Memory impairment",
+            "reactionoutcome": "6"
+          },
+          {
+            "reactionmeddraversionpt": "23.1",
+            "reactionmeddrapt": "Product use issue",
+            "reactionoutcome": "1"
+          },
+          {
+            "reactionmeddraversionpt": "23.1",
+            "reactionmeddrapt": "Incorrect dose administered by device",
+            "reactionoutcome": "1"
+          },
+          {
+            "reactionmeddraversionpt": "23.1",
+            "reactionmeddrapt": "Wrong technique in device usage process",
+            "reactionoutcome": "1"
+          }
+        ],
+        "drug": [
+          {
+            "drugcharacterization": "1",
+            "medicinalproduct": "SYMBICORT",
+            "drugauthorizationnumb": "021929",
+            "drugadministrationroute": "055",
+            "drugindication": "CHRONIC OBSTRUCTIVE PULMONARY DISEASE",
+            "drugstartdateformat": "610",
+            "drugstartdate": "202007",
+            "actiondrug": "5",
+            "drugadditional": "3",
+            "activesubstance": {
+              "activesubstancename": "BUDESONIDE\\FORMOTEROL FUMARATE DIHYDRATE"
+            },
+            "openfda": {
+              "application_number": [
+                "NDA021929"
+              ],
+              "brand_name": [
+                "SYMBICORT"
+              ],
+              "generic_name": [
+                "BUDESONIDE AND FORMOTEROL FUMARATE DIHYDRATE"
+              ],
+              "manufacturer_name": [
+                "AstraZeneca Pharmaceuticals LP"
+              ],
+              "product_ndc": [
+                "0186-0370",
+                "0186-0372"
+              ],
+              "product_type": [
+                "HUMAN PRESCRIPTION DRUG"
+              ],
+              "route": [
+                "RESPIRATORY (INHALATION)"
+              ],
+              "substance_name": [
+                "BUDESONIDE",
+                "FORMOTEROL FUMARATE"
+              ],
+              "rxcui": [
+                "1246288",
+                "1246290",
+                "1246304",
+                "1246306",
+                "1246314",
+                "1246315",
+                "1246316",
+                "1246317"
+              ],
+              "spl_id": [
+                "5b03fd09-2533-4975-88da-a0b9c8495d1e"
+              ],
+              "spl_set_id": [
+                "fafa4cf1-99c2-43d5-73ad-51f256de3be0"
+              ],
+              "package_ndc": [
+                "0186-0370-20",
+                "0186-0370-28",
+                "0186-0370-60",
+                "0186-0372-20",
+                "0186-0372-28",
+                "0186-0372-60"
+              ],
+              "nui": [
+                "N0000175576",
+                "N0000175450"
+              ],
+              "pharm_class_epc": [
+                "Corticosteroid [EPC]"
+              ],
+              "pharm_class_moa": [
+                "Corticosteroid Hormone Receptor Agonists [MoA]"
+              ],
+              "unii": [
+                "W34SHF8J2K",
+                "Q3OKS62Q6X"
+              ]
+            }
+          },
+          {
+            "drugcharacterization": "1",
+            "medicinalproduct": "SYMBICORT",
+            "drugbatchnumb": "NR",
+            "drugauthorizationnumb": "021929",
+            "drugdosagetext": "160/4.5MCG 2 PUFFS TWICE DAILY",
+            "drugadministrationroute": "055",
+            "drugindication": "CHRONIC OBSTRUCTIVE PULMONARY DISEASE",
+            "actiondrug": "5",
+            "drugadditional": "3",
+            "activesubstance": {
+              "activesubstancename": "BUDESONIDE\\FORMOTEROL FUMARATE DIHYDRATE"
+            },
+            "openfda": {
+              "application_number": [
+                "NDA021929"
+              ],
+              "brand_name": [
+                "SYMBICORT"
+              ],
+              "generic_name": [
+                "BUDESONIDE AND FORMOTEROL FUMARATE DIHYDRATE"
+              ],
+              "manufacturer_name": [
+                "AstraZeneca Pharmaceuticals LP"
+              ],
+              "product_ndc": [
+                "0186-0370",
+                "0186-0372"
+              ],
+              "product_type": [
+                "HUMAN PRESCRIPTION DRUG"
+              ],
+              "route": [
+                "RESPIRATORY (INHALATION)"
+              ],
+              "substance_name": [
+                "BUDESONIDE",
+                "FORMOTEROL FUMARATE"
+              ],
+              "rxcui": [
+                "1246288",
+                "1246290",
+                "1246304",
+                "1246306",
+                "1246314",
+                "1246315",
+                "1246316",
+                "1246317"
+              ],
+              "spl_id": [
+                "5b03fd09-2533-4975-88da-a0b9c8495d1e"
+              ],
+              "spl_set_id": [
+                "fafa4cf1-99c2-43d5-73ad-51f256de3be0"
+              ],
+              "package_ndc": [
+                "0186-0370-20",
+                "0186-0370-28",
+                "0186-0370-60",
+                "0186-0372-20",
+                "0186-0372-28",
+                "0186-0372-60"
+              ],
+              "nui": [
+                "N0000175576",
+                "N0000175450"
+              ],
+              "pharm_class_epc": [
+                "Corticosteroid [EPC]"
+              ],
+              "pharm_class_moa": [
+                "Corticosteroid Hormone Receptor Agonists [MoA]"
+              ],
+              "unii": [
+                "W34SHF8J2K",
+                "Q3OKS62Q6X"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
