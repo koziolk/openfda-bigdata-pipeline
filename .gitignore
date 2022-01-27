@@ -31,7 +31,6 @@ build/
 ### VS Code ###
 .vscode/
 
-/openfda-consumer/openfda-consumer.log
-/openfda-producer/openfda-producer.log
-/mongodb/mongodb-data-2022-01-20.zip
-/mongodb/mongodb-data-2022-01-22.zip
+/openfda-consumer/**.log
+/openfda-producer/**.log
+/mongodb/mongodb-data**

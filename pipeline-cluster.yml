@@ -1,8 +1,7 @@
 version: "3.8"
 
 services:
-
-  #kafka cluster
+  #kafka and zookeeper cluster
   zookeeper-1:
     image: confluentinc/cp-zookeeper:6.2.2
     container_name: zookeeper-1
@@ -167,11 +166,11 @@ services:
       KAFKA_NUMBER_OF_TOPIC_PARTITIONS: 8
       OPENFDA_API_BATCH_SIZE: 1000
       OPENFDA_API_BATCH_READ_DELAY: 1000
-      OPENFDA_API_SYNC_DATE_FROM: "2000-01-01"
+      OPENFDA_API_SYNC_DATE_FROM: "2021-01-01"
       OPENFDA_API_SYNC_DATE_TO: "2022-01-01"
       JAVA_TOOL_OPTIONS: -Xmx1G -Xms1G
     ports:
-      - "8888:8080"
+      - "7777:8080"
   
   # consumer
   openfda-consumer:
@@ -203,8 +202,22 @@ services:
       - openfda-producer
       - openfda-consumer
     environment:
-      MONGO_URI: mongodb://root:openfda@mongodb:27017/openfda_test?authSource=admin
-      MONGO_DB: openfda_test
+      MONGO_URI: mongodb://root:openfda@mongodb-primary:27017,mongodb-secondary:27017,mongodb-arbiter:27017/openfda?authSource=admin&replicaSet=replicaset
+      MONGO_DB: openfda
       GRAPH_REFRESH_INTERVAL: 10000
     ports:
       - "8050:8050"
+
+  # jupyter notebook
+  jupyter-notebook:
+    image: jupyter/base-notebook:latest
+    container_name: jupyter-notebook
+    hostname: jupyter-notebook
+    depends_on:
+      - openfda-producer
+      - openfda-consumer
+    environment:
+      JUPYTER_ENABLE_LAB: "yes"
+    command: "start-notebook.sh --NotebookApp.token='openfda' --NotebookApp.password='openfda'"
+    ports:
+      - "8888:8888"
