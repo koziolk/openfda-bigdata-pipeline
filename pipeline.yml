@@ -8,7 +8,7 @@ services:
     ports:
       - "2181:2181"
     volumes:
-      - zookeper-data:/bitnami
+      - ./volume/zookeper-data:/bitnami
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
 
@@ -22,7 +22,7 @@ services:
       - "9092:9092"
       - "9093:9093"
     volumes:
-      - kafka-data:/bitnami
+      - ./volume/kafka-data:/bitnami
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
@@ -43,7 +43,7 @@ services:
       MONGODB_PASSWORD: openfda
       MONGODB_DATABASE: openfda
     volumes:
-      - mongo-data:/bitnami
+      - ./volume/mongo-data:/bitnami
     ports:
       - "27017:27017"
 
@@ -108,8 +108,3 @@ services:
     command: "start-notebook.sh --NotebookApp.token='openfda' --NotebookApp.password='openfda'"
     ports:
       - "8888:8888"
-
-volumes:
-  zookeper-data:
-  kafka-data:
-  mongo-data:

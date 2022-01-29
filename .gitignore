@@ -34,3 +34,4 @@ build/
 /openfda-consumer/**.log
 /openfda-producer/**.log
 /mongodb/mongodb-data**
+!/mongo.yml
