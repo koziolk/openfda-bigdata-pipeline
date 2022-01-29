@@ -1,0 +1,42 @@
+{
+  "_id" : "ObjectId('61f0f651111a911dc3ccc7b2')",
+  "country" : "US",
+  "receiveDate" : "20140401",
+  "serious" : 2,
+  "patientAge" : 30,
+  "patientSex" : 2,
+  "patientReactions" : [
+    "Trigger finger",
+    "Arthritis",
+    "Pain in extremity",
+    "Joint swelling",
+    "Arthralgia",
+    "Peripheral swelling",
+    "Intentional product misuse"
+  ],
+  "medicinalProduct" : [
+    "NEXIUM",
+    "DEXILANT",
+    "STEROID"
+  ],
+  "drugBrandNames" : [
+    "NEXIUM",
+    "NEXIUM I.V.",
+    "DEXILANT"
+  ],
+  "drugGenericNames" : [
+    "ESOMEPRAZOLE MAGNESIUM",
+    "ESOMEPRAZOLE SODIUM",
+    "DEXLANSOPRAZOLE"
+  ],
+  "drugSubstanceNames" : [
+    "ESOMEPRAZOLE MAGNESIUM",
+    "ESOMEPRAZOLE SODIUM",
+    "DEXLANSOPRAZOLE"
+  ],
+  "drugManufacturerNames" : [
+    "AstraZeneca Pharmaceuticals LP",
+    "Takeda Pharmaceuticals America, Inc."
+  ],
+  "_class" : "io.bigdata.openfda.consumer.mongo.DrugAdverseEventDocument"
+}

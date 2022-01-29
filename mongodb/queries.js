@@ -1,21 +1,31 @@
 // TOP reported patient reactions
 db.getCollection('drugAdverseEvent').aggregate([
-                     { $project: {patientReactions: 1}},
-                     { $unwind : "$patientReactions" },
-                     { $group: { _id: "$patientReactions", total: { $sum: 1 } } },
-                     { $sort: { total: -1 } },
-                     { $limit : 20 }
-                   ]);
-                                         
+                    {$unwind: "$patientReactions"},
+                    {$project: {"reaction": "$patientReactions"}},
+                    {$group: {"_id": "$reaction", total: {$sum: 1}}},
+                    {$project: {
+                            "_id": 0,
+                            "reaction": "$_id",
+                            "total": 1
+                    }},
+                    {$sort: {total: -1}},
+                    {$limit: 20}
+                ]);
+
 
 // TOP reported medical products
 db.getCollection('drugAdverseEvent').aggregate([
-                     { $project: {medicinalProduct: 1}},
-                     { $unwind: "$medicinalProduct" },
-                     { $group: { _id: "$medicinalProduct", total: { $sum: 1 } } },
-                     { $sort: { total: -1 } },
-                     { $limit : 20 }
-                   ]);
+                    {$unwind: "$medicinalProduct"},
+                    {$project: {"product": {$toUpper: "$medicinalProduct"}}},
+                    {$group: {"_id": "$product", total: {$sum: 1}}},
+                    {$project: {
+                        "_id": 0,
+                        "product": {$substr: ["$_id", 0, 20]},
+                        "total": 1
+                    }},
+                    {$sort: {"total": -1}},
+                    {$limit: 20}
+                ]);
 
                      
 // TOP medical products that are causing death 

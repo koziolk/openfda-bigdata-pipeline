@@ -79,12 +79,12 @@ def update_graph_live1(n):
         yaxis=dict(
             title='Number of events',
             titlefont_size=20,
-            tickfont_size=18,
+            tickfont_size=18
         ),
         xaxis=dict(
             title='Reaction',
             titlefont_size=20,
-            tickfont_size=18,
+            tickfont_size=18
         ),
         barmode='group',
         bargap=0.15,  # gap between bars of adjacent location coordinates.
@@ -119,12 +119,12 @@ def update_graph_live2(n):
         yaxis=dict(
             title='Number of events',
             titlefont_size=20,
-            tickfont_size=18,
+            tickfont_size=18
         ),
         xaxis=dict(
             title='Name',
             titlefont_size=20,
-            tickfont_size=18,
+            tickfont_size=18
         ),
         barmode='group',
         bargap=0.15,  # gap between bars of adjacent location coordinates.
@@ -175,12 +175,12 @@ def update_graph_live3(n):
         yaxis=dict(
             title='Number of events',
             titlefont_size=20,
-            tickfont_size=18,
+            tickfont_size=18
         ),
         xaxis=dict(
             title='Month',
             titlefont_size=20,
-            tickfont_size=18,
+            tickfont_size=18
         ),
         barmode='group',
         bargap=0.15,  # gap between bars of adjacent location coordinates.
