@@ -1,6 +1,6 @@
 # OpenFDA BigData Pipeline
 
-**OpenFDA BigData Pipeline** enables collection, processing, and real-time presentation of data - on adverse drug events from the [openFDA](https://open.fda.gov/apis/drug/) project database.
+**OpenFDA BigData Pipeline** enables collection, processing, and real-time presentation of data - on adverse drug events from the [openFDA](https://open.fda.gov/apis/drug/) database.
 
 The solution uses [Apache Kafka](https://kafka.apache.org/) as a message broker, [Mongo DB](https://www.mongodb.com) as a document storage, [Spring Boot](https://spring.io/projects/spring-boot) for services and is Dockerized.
 
@@ -70,9 +70,3 @@ In addition, you can access Jupyter Notebook `jupyter-notebook` via a browser un
 ## Issues and contribution
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/koziolk/openfda-bigdata-pipeline
-
-## License
-
-**OpenFDA Bigdata Pipeline** is published under [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).
-
-
