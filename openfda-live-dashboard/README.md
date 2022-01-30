@@ -16,7 +16,7 @@ python3 flask app.py
 
 * Building docker image
 ```
-docker build --tag koziolk/openfdsa-live-dashboard .
+docker build --tag koziolk/openfda-live-dashboard .
 ```
 * Running Docker image
 ```
